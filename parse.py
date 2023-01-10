@@ -1,15 +1,19 @@
 from dataclasses import dataclass
+from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup
 
-URL = "https://bank.gov.ua/ua/markets/exchangerates"
+
+date_today = datetime.now()
+date_today.strftime("%d.%m.%Y")
+
+URL = f"https://bank.gov.ua/ua/markets/exchangerates?date={date_today}&period=daily"
 
 @dataclass
 class Currency:
     name: str
     official_exchange_rate: float
-    number_of_currency_units: int
 
 
 def parse_single_currency(currency_soup) -> Currency:
@@ -19,14 +23,13 @@ def parse_single_currency(currency_soup) -> Currency:
 
     return Currency(
         name=currency_name,
-        official_exchange_rate=currency_value,
-        number_of_currency_units=currency_number
+        official_exchange_rate=currency_value * currency_number
     )
 
 
 
-def get_all_currencies(url) -> [Currency]:
-    page = requests.get(url).content
+def get_all_currencies() -> [Currency]:
+    page = requests.get(URL).content
     soup = BeautifulSoup(page, "html.parser")
 
     currencies_soup = soup.select("tbody > tr")
@@ -34,11 +37,7 @@ def get_all_currencies(url) -> [Currency]:
 
 
 def main():
-    currencies = get_all_currencies(URL)
-
-    for currency in currencies:
-        print(currency.name + ((40 - len(currency.name)) * " ") + "|   " +
-              str(round((currency.official_exchange_rate / currency.number_of_currency_units), 4)))
+    print(get_all_currencies())
 
 
 
