@@ -10,23 +10,29 @@ ct = Tk()
 ct.title("Currency rate to the UAH")
 ct.geometry("400x700")
 
+
+# Setting vidget frame
 table_frame = Frame(ct)
 table_frame.pack()
 table_frame.grid()
 
+# Creating table in the widget
 currency_table = ttk.Treeview(table_frame, height=len(currencies), )
 currency_table["columns"] = ("currency", "number_of_units", "value")
 
+# Setting up table's columns
 currency_table.column("#0", width=0,  stretch=NO)
 currency_table.column("currency", anchor=W, width=200)
 currency_table.column("number_of_units", anchor=CENTER, width=100)
 currency_table.column("value", anchor=W, width=80)
 
+# Setting up headers of columns
 currency_table.heading("#0", text="", anchor=W)
 currency_table.heading("currency", text="Currency", anchor=W)
 currency_table.heading("number_of_units", text="Number of units", anchor=CENTER)
 currency_table.heading("value", text="Value", anchor=W)
 
+# Inserting all data in table
 for index, value in enumerate(currencies):
     currency_table.insert(
         parent="",

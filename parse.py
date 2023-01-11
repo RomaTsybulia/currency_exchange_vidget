@@ -2,13 +2,15 @@ from dataclasses import dataclass
 from datetime import datetime
 
 import requests
-import translators as ts
 from bs4 import BeautifulSoup
+
+import translators as ts
 
 
 date_today = datetime.now()
 date_today.strftime("%d.%m.%Y")
 
+# URL of National Bank of Ukraine
 URL = f"https://bank.gov.ua/ua/markets/exchangerates?date={date_today}&period=daily"
 
 @dataclass
