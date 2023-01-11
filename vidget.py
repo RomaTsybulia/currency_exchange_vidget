@@ -14,7 +14,7 @@ table_frame = Frame(ct)
 table_frame.pack()
 table_frame.grid()
 
-currency_table = ttk.Treeview(table_frame, height=len(currencies))
+currency_table = ttk.Treeview(table_frame, height=len(currencies), )
 currency_table["columns"] = ("currency", "number_of_units", "value")
 
 currency_table.column("#0", width=0,  stretch=NO)
