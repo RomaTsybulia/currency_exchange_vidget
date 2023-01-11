@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 
 import requests
+import translators as ts
 from bs4 import BeautifulSoup
 
 
@@ -21,9 +22,11 @@ def parse_single_currency(currency_soup) -> Currency:
     currency_value = float(currency_soup.select_one('td[data-label="Офіційний курс"]').text.replace(",", "."))
     currency_number = int(currency_soup.select_one('td[data-label="Кількість одиниць валюти"]').text)
 
+    translated_currencys_name = ts.translate_text(f"{currency_name}", to_language="en")
+
     return Currency(
-        name=currency_name,
-        official_exchange_rate=currency_value * currency_number
+        name=translated_currencys_name,
+        official_exchange_rate=round(currency_value / currency_number, 4)
     )
 
 
